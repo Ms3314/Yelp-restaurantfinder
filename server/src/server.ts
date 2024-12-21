@@ -33,14 +33,20 @@ db.connect().then(() => {
 
 //getting the restaurants here !! 
 app.get('/api/v1/restaurants' , async (req , res) => {
-    const results = await db.query("SELECT * FROM restaurants")
-    res.status(200).json({
-        status : "success" ,
-        data: {
-            data : results.rows , 
-            // restaurant : ['mcdonals','Cafe555','Karachi bakkery','Pista House']
-        }
-    })
+    try {
+        const results = await db.query("SELECT * FROM restaurants")
+        res.status(200).json({
+            status : "success" ,
+            results : results.rows.length,
+            data: {
+                restaurant : results.rows , 
+                // restaurant : ['mcdonals','Cafe555','Karachi bakkery','Pista House']
+            }
+        })
+    } catch (error) {
+        res.status(500).json({"err" : error});
+    }
+    
 })
 
 //adding the restaurant data 
@@ -55,14 +61,22 @@ app.post("/api/v1/restaurants" , (req ,res) =>{
 
 })
 
-app.get('/api/v1/restaurants/:id' , (req , res)=>{
-    console.log(req.params.id)
-    res.status(200).json({
-        status : "success" ,
-        data: {
-            restaurant : ['mcdonals','Cafe555','Karachi bakkery','Pista House']
-        }
-    })
+app.get('/api/v1/restaurants/:id' ,async (req , res)=>{
+    try {
+        const resid = req.params.id ;
+        const inputquery = "SELECT * FROM restaurants WHERE id = $1"
+        const query =await  db.query(inputquery,[resid ])
+        console.log(query)
+        res.status(200).json({
+            status : "success" ,
+            data: {
+                restaurant : query.rows
+            }
+        })
+    } catch (error) {
+        res.status(500).json({"err" : error})
+    }
+    
 })
 
 app.put("/api/v1/restaurants/:id" , (req , res) =>{
