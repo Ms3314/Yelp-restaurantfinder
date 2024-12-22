@@ -2,21 +2,33 @@ require("dotenv").config();
 import express from 'express';
 import morgan from 'morgan';
 import { Client } from 'pg'; 
+import cors from "cors";
+import { CorsOptions } from 'cors';
+
 
 const db = new Client()
  
 const app = express();
 const PORT = process.env.PORT || 3000; 
 
-app.use(morgan('dev'))
-app.use(express.json())
+const allowedOrigins = [ // React app
+    'http://localhost:5173', // Another frontend;
+]
+  
+  // Configure CORS options
+const corsOptions: CorsOptions = {
+    origin: allowedOrigins,
+};
+
+app.use(express.json());
+app.use(cors(corsOptions));
 
 // database connected 
 db.connect().then(() => {
     console.log('Database connected successfully.');
-  }).catch((err) => {
+}).catch((err) => {
     console.error('Database connection error:', err.stack);
-  });
+});
 
 //getting the restaurants here !! 
 app.get('/api/v1/restaurants' , async (req , res) => {
@@ -36,11 +48,14 @@ app.get('/api/v1/restaurants' , async (req , res) => {
     
 })
 
-//adding the restaurant data 
-app.post("/api/v1/restaurants" ,async (req ,res) =>{
+//adding the restaurant data  (completed)
+app.post("/api/v1/restaurants" , async (req ,res) =>{
     try {
-        let {name , location , price_range} = req.body;
+        // console.log(req.body , "the data I get from the frontend ")
+        let {name , location , price_range} = req.body.payload;
+        // console.log(name , location , price_range , "the data")
         const results = await db.query("INSERT INTO restaurants (name , location , price_range) VALUES ($1 , $2 , $3) returning *",[name , location , price_range ])
+        // console.log(results.rows , "no results now")
         res.status(201).json({
             status : "success" ,
             message : "data addded succesfully",
@@ -48,7 +63,9 @@ app.post("/api/v1/restaurants" ,async (req ,res) =>{
         })
     } catch (error) {
         res.status(500).json({
-            err : error
+            type : "this is the server error ",
+            // @ts-ignore
+            err : error.message
         })
     }
     
