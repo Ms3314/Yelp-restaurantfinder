@@ -95,7 +95,7 @@ app.get('/api/v1/restaurants/:id' ,async (req , res)=>{
 app.put("/api/v1/restaurants/:id" , async (req , res) =>{
     try {
         const id = req.params.id ;
-        let {name , location , price_range} = req.body;
+        let {name , location , price_range} = req.body.payload;
         const results = await  db.query("UPDATE restaurants SET name= $2 , location= $3 , price_range= $4 WHERE id = $1 returning *",[id , name , location , price_range ]);
         console.log(req.params.id);
         console.log(req.body);
