@@ -1,8 +1,10 @@
-
+import { useParams } from "react-router";
+import RenderReviews from "../components/RenderReviews";
 function Restaurantdetail() {
+  const {id} = useParams()
   return (
     <div>
-      <p>The Details page for the restaurant </p>
+      <RenderReviews id={id} />
     </div>
   );
 }

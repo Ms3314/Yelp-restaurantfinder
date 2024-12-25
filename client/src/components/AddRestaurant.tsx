@@ -53,11 +53,14 @@ function AddRestaurant():React.ReactElement{
 
     }
     return (
-        <div className='text-lg bg-slate-900'>
-                <form action="" className='flex flex-row gap-5 p-2 justify-center '>
+        <div className='text-lg rounded-xl m-3 bg-slate-900'>
+                <form action="" className='flex flex-col  md:flex-row gap-5 p-2 justify-center '>
                         <input type="text" name="name" onChange={handlechange} value={formData.name} className='p-2 rounded-lg' placeholder='Name'/>
                         <input type="text" name="location" onChange={handlechange} value={formData.location} className='p-2 rounded-lg' placeholder='Location'/>
+                        <div>
+                        <label htmlFor="price_range " className="text-slate-300 mr-3">Price range -></label>
                         <input type="number" name="price_range" onChange={handlechange} value={formData.price_range} className='p-2 rounded-lg' placeholder='Price Range' />
+                        </div>
                         <button onClick={handleRestaurants} className='px-5 rounded-lg bg-yellow-300 text-black font-thin'>Add</button>
                 </form>
                 

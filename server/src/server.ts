@@ -130,6 +130,54 @@ app.delete("/api/v1/restaurants/:id" ,async (req , res) =>{
     }
 })
 
+app.post("/api/v1/restaurants/:id/reviews", async (req, res) => {
+    const id = req.params.id;
+    const { reviews, name, rating } = req.body;
+
+    console.log(reviews, name, rating);
+
+    const query = `
+        INSERT INTO reviews (name, reviews, rating, restaurants_id) 
+        VALUES ($1, $2, $3, $4)
+    `;
+
+    try {
+        await db.query(query, [name, reviews, rating, id]);
+        res.status(200).json({
+            message: "Your review has been added 😀😀😀"
+        });
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({
+            error: "An error occurred while adding the review."
+        });
+    }
+});
+
+app.get("/api/v1/restaurants/:id/reviews", async (req, res) => {
+    const id = req.params.id;
+    const { reviews, name, rating } = req.body;
+
+
+    const query = `
+        SELECT * FROM reviews WHERE restaurants_id = $1 
+    `;
+
+    try {
+        var results = await db.query(query, [id]);
+        res.status(200).json({
+            status : "success" ,
+            message : "data addded succesfully",
+            data : results.rows
+        });
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({
+            error: "An error occurred while adding the review."
+        });
+    }
+});
+
 app.listen(PORT , ()=>{
     console.log(`Port is running on port ${PORT}`);
 })
