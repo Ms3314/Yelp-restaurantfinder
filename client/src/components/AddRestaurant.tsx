@@ -58,8 +58,8 @@ function AddRestaurant():React.ReactElement{
                         <input type="text" name="name" onChange={handlechange} value={formData.name} className='p-2 rounded-lg' placeholder='Name'/>
                         <input type="text" name="location" onChange={handlechange} value={formData.location} className='p-2 rounded-lg' placeholder='Location'/>
                         <div>
-                        <label htmlFor="price_range " className="text-slate-300 mr-3">Price range -></label>
-                        <input type="number" name="price_range" onChange={handlechange} value={formData.price_range} className='p-2 rounded-lg' placeholder='Price Range' />
+                        <label htmlFor="price_range " className="text-slate-300 mr-3">Price range {`->`} </label>
+                        <input type="number" name="price_range" onChange={handlechange} max={3} value={formData.price_range} className='p-2 rounded-lg' placeholder='Price Range' />
                         </div>
                         <button onClick={handleRestaurants} className='px-5 rounded-lg bg-yellow-300 text-black font-thin'>Add</button>
                 </form>

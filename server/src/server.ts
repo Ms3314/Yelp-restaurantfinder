@@ -181,6 +181,26 @@ app.get("/api/v1/restaurants/:id/reviews", async (req, res) => {
     }
 });
 
+app.get("/api/v1/avgreview/:id",async (req , res)=>{
+    const id = req.params.id;
+    const query = `
+        SELECT rating FROM reviews WHERE restaurants_id = $1 
+    `;
+    try {
+        var results = await db.query(query, [id]);
+        res.status(200).json({
+            data : results.rows
+        });
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).json({
+            error: "An error occurred while adding the review."
+        });
+    }
+
+
+})
+
 app.listen(PORT , ()=>{
     console.log(`Port is running on port ${PORT}`);
 })

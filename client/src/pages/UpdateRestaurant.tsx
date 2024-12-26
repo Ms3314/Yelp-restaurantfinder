@@ -57,21 +57,19 @@ const handlechange = (e:React.ChangeEvent<HTMLInputElement>) =>{
 
     }
   return (
-    <div>
-      <div className='text-lg flex-col  align-center justify-self-center self-center mt-[100px] '>
-                <div className="flex flex-row ">
-                <button onClick={()=>navigate('/')}  className="w-20 mr-5 mt-2 h-10 p-1 bg-blue-500 rounded-xl text-white ">Home </button>
-                <h1 className="text-5xl mb-10">UPDATE THE RESTAURANT 😋😋</h1>
-                </div>
-                <form action="" className='rounded-xl bg-slate-900 flex flex-col w-[300px] gap-5 p-2 justify-center '>
+    <div className='w-screen h-screen flex flex-col items-center '>
+        <div className="max-w-[300px] flex flex-col  ">
+            <button onClick={() => navigate('/')} className="w-20 mr-5 mt-2 h-10 p-1 bg-blue-500 rounded-xl text-white">Home</button>
+            <h1 className="text-3xl mt-5 lg:text-5xl mb-10">UPDATE THE RESTAURANT 😋😋</h1>
+        </div>
+        <form action="" className=' rounded-xl bg-slate-900 flex flex-col  lg:w-[500px] gap-5 p-2 justify-center '>
                         <input type="text" name="name" onChange={handlechange} value={formData.name} className='p-2 rounded-lg' placeholder='Name'/>
                         <input type="text" name="location" onChange={handlechange} value={formData.location} className='p-2 rounded-lg' placeholder='Location'/>
                         <input type="number" name="price_range" onChange={handlechange} value={formData.price_range} className='p-2 rounded-lg' placeholder='Price Range' />
                         <button onClick={handleSubmit} className='px-5 py-2 rounded-lg bg-yellow-300 text-black font-thin'>Update</button>
-                </form>
-                
-        </div>
+        </form>
     </div>
+
   )
 }
 

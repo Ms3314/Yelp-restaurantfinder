@@ -2,7 +2,7 @@ import { useContext , useEffect , useState} from "react"
 import axios from "axios"
 import { DataContext } from "../pages/App"
 import { useNavigate } from "react-router";
-
+import Star from '../assets/star-svgrepo-com.svg'
  
 interface FormData {
     id : number,
@@ -45,7 +45,7 @@ const RestaurantList = () => {
 };
 //@ts-ignore-error
  const Card = ({name , data ,location , price , id , setTruDel }) => {
-    const [review , getReview] = useState([]);
+    const [review , setReview] = useState(0);
     const navigate = useNavigate();
      const handleDelete = async () => {
         await axios.delete(`http://localhost:3000/api/v1/restaurants/${id}`).then(()=>{
@@ -64,15 +64,37 @@ const RestaurantList = () => {
         localStorage.setItem("data" , JSON.stringify(data)) 
         navigate(`/restaurant/${id}/update`)
     }
-    // useEffect(()=>{
-    //     async function AvgReview() {
-    //         const results = await axios.get(`http://localhost:3000/api/v1/avgreview/${id}`)
-
-    //     }
-    //     AvgReview()
-    // },[id])
+    useEffect(()=>{
+        async function AvgReview() {
+            try {
+                const results = await axios.get(`http://localhost:3000/api/v1/avgreview/${id}`)
+                console.log(results.data, "the data here ")
+                let count = 0; 
+                const temp = results.data.data;
+                let temp2:number = 0;
+                for(let i = 0 ; i < temp.length ; i++ ) 
+                    {   
+                        count ++ ;
+                    }
+                temp.map((x:{rating:number})=>{
+                    temp2 += x.rating
+                })
+                console.log(temp2 , count , "temp and count ")
+                //@type-ignore
+                const temp3 = temp2/count
+                console.log(temp3 , typeof(temp3))
+                console.log(Math.round(temp3),"round figure")
+                setReview(Math.round(temp3))
+                // console.log(parseInt(temp2/count));
+            } catch (error) {
+                console.log(error)
+            }
+            
+        }
+        AvgReview()
+    },[id])
     return (
-        <div className='sm:h-[50px] flex flex-col  sm:flex-row  gap-2 p-3 text-white rounded-xl overflow-x lg:w-[800px]  content-between bg-slate-900'>
+        <div className='sm:h-[50px] flex flex-col  sm:flex-row  gap-2 p-3 text-white rounded-xl overflow-x lg:w-[800px] justify-between content-between bg-slate-900'>
             <h2 className="w-full text-lg">{name} </h2>
             <h2 className="w-full text-lg">{location} </h2>
             <div className="flex gap-2 mr-10 flex-row">
@@ -82,6 +104,16 @@ const RestaurantList = () => {
                       $
                     </span>
                 ))
+            }
+            </div>
+            <div className="w-[200px] flex gap-2 mr-20 flex-row">
+            {
+                review ?
+                [...Array(review)].map((k, index) => ( 
+                    <img key={index} className="w-3 h-5" src={Star} alt="Star" />
+                ))
+                :
+                <p >No reviews</p>
             }
             </div>
             <div className="flex gap-4">

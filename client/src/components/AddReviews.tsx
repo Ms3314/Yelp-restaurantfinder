@@ -76,7 +76,7 @@ const AddReviews: React.FC = ({reviewContext , id}:{reviewContext:any , id:numbe
           />
           <div>
             <label htmlFor="rating" className="text-slate-300 mr-3">
-              Ratings / 5 ->
+            Ratings / 5 {`->`}
             </label>
             <input
               type="number"
