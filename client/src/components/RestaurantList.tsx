@@ -22,6 +22,7 @@ const RestaurantList = () => {
         async function fetchData() {
             try {
                 const response = await axios.get("http://localhost:3000/api/v1/restaurants");
+                
                 console.log("the data",response.data);
                 console.log(response.data.data.restaurant);
                 setData(response.data.data.restaurant);
@@ -44,6 +45,7 @@ const RestaurantList = () => {
 };
 //@ts-ignore-error
  const Card = ({name , data ,location , price , id , setTruDel }) => {
+    const [review , getReview] = useState([]);
     const navigate = useNavigate();
      const handleDelete = async () => {
         await axios.delete(`http://localhost:3000/api/v1/restaurants/${id}`).then(()=>{
@@ -62,6 +64,13 @@ const RestaurantList = () => {
         localStorage.setItem("data" , JSON.stringify(data)) 
         navigate(`/restaurant/${id}/update`)
     }
+    // useEffect(()=>{
+    //     async function AvgReview() {
+    //         const results = await axios.get(`http://localhost:3000/api/v1/avgreview/${id}`)
+
+    //     }
+    //     AvgReview()
+    // },[id])
     return (
         <div className='sm:h-[50px] flex flex-col  sm:flex-row  gap-2 p-3 text-white rounded-xl overflow-x lg:w-[800px]  content-between bg-slate-900'>
             <h2 className="w-full text-lg">{name} </h2>

@@ -8,8 +8,11 @@ interface Card {
     name : string , 
     rating : number , 
 }
-function RenderReviews({ id }: { id: string }) {
-    const [data, setData] = useState<Review[]>([]); // Define `data` as an array of `Review`
+
+
+
+function RenderReviews({ id , review}: { id: string , review:Card }) {
+    const [data, setData] = useState<Card[]>([]); // Define `data` as an array of `Review`
     const [error, setError] = useState<string | null>(null); // Add error handling
     const navigate = useNavigate()
     useEffect(() => {
@@ -32,7 +35,7 @@ function RenderReviews({ id }: { id: string }) {
         };
 
         fetchdata();
-    }, [id]); // Include `id` in the dependency array
+    }, [id , review]); // Include `id` in the dependency array
 
     if (error) {
         return <div className="error-message">{error}</div>;
@@ -73,10 +76,10 @@ function RenderReviews({ id }: { id: string }) {
     );
 }
 
-//@ts-ignore
+// @ts-ignore
 function Card({ reviews, name, rating }) {
     return (
-        <div className="bg-blue-800 rounded-xl p-4 text-white max-w-sm mx-auto">
+        <div className="bg-blue-800 rounded-xl p-4 w-[240px] text-white max-w-sm mx-auto">
             {/* Name */}
             <p className="text-sm font-bold mb-2">{name}</p>
             

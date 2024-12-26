@@ -12,9 +12,9 @@ function App() {
   return (
     <div>
       <DataContext.Provider  value={[dataAdd, setDataAdd]}>
-      <Header/>
-      <AddRestaurant/>
-      <RestaurantList/>
+        <Header/>
+        <AddRestaurant/>
+        <RestaurantList/>
       </DataContext.Provider>
     </div>
   )

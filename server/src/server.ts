@@ -132,9 +132,11 @@ app.delete("/api/v1/restaurants/:id" ,async (req , res) =>{
 
 app.post("/api/v1/restaurants/:id/reviews", async (req, res) => {
     const id = req.params.id;
-    const { reviews, name, rating } = req.body;
+    console.log(req.body , "1")
+    // console.log(req.body.data.data , "2")
+    const { description , name, rating } = req.body;
 
-    console.log(reviews, name, rating);
+    console.log(description, name, rating);
 
     const query = `
         INSERT INTO reviews (name, reviews, rating, restaurants_id) 
@@ -142,7 +144,8 @@ app.post("/api/v1/restaurants/:id/reviews", async (req, res) => {
     `;
 
     try {
-        await db.query(query, [name, reviews, rating, id]);
+        // its actually reviews in the db but i have used descripton in the frontend do sorry 
+        await db.query(query, [name, description, rating, id]);
         res.status(200).json({
             message: "Your review has been added 😀😀😀"
         });
@@ -157,7 +160,7 @@ app.post("/api/v1/restaurants/:id/reviews", async (req, res) => {
 app.get("/api/v1/restaurants/:id/reviews", async (req, res) => {
     const id = req.params.id;
     const { reviews, name, rating } = req.body;
-
+    
 
     const query = `
         SELECT * FROM reviews WHERE restaurants_id = $1 

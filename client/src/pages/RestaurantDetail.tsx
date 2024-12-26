@@ -1,11 +1,30 @@
-import { useParams } from "react-router";
+import { useParams  } from "react-router";
 import RenderReviews from "../components/RenderReviews";
+import AddReviews from "../components/AddReviews";
+import { useState } from "react";
+
+
+
+
+
+// export const ReviewContext = createContext<ReviewContextType | null>(null);
+
 function Restaurantdetail() {
-  const {id} = useParams()
+  // Define the type for `id` coming from useParams
+  const { id } = useParams<{ id: string }>();
+  const [review , setReview] = useState({
+    name: "",
+    description: "",
+    rating: 0,
+  }) 
+
   return (
-    <div>
-      <RenderReviews id={id} />
-    </div>
+    // <ReviewContext.Provider value={{ context1, setContext1 }}>
+      <div className="flex flex-col justify-center items-center">
+        <RenderReviews id={id} review={review}  />
+        <AddReviews id={id} reviewContext={setReview}/>
+      </div>
+    // </ReviewContext.Provider>
   );
 }
 
