@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "build": "tsc", 
+    "start": "node dist/app.js", 
     "dev": "tsc -b && nodemon ./dist/server.js"
   },
   "author": "",
