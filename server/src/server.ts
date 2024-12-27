@@ -6,8 +6,17 @@ import cors from "cors";
 import { CorsOptions } from 'cors';
 
 
-const db = new Client()
- 
+const db = new Client({
+    user: process.env.PGUSER,
+    host: process.env.PGHOST,
+    database: process.env.PGDATABASE,
+    password: process.env.PGPASSWORD,
+    port: Number(process.env.PGPORT),
+    ssl: {
+      rejectUnauthorized: false // Adjust if needed
+    }
+  }); 
+
 const app = express();
 const PORT = process.env.PORT || 3000; 
 
@@ -22,6 +31,10 @@ const corsOptions: CorsOptions = {
 
 app.use(express.json());
 app.use(cors(corsOptions));
+
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 // database connected 
 db.connect().then(() => {
