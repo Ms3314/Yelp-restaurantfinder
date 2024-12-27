@@ -21,7 +21,7 @@ const app = express();
 const PORT = process.env.PORT || 3000; 
 
 const allowedOrigins = [ // React app
-    'http://localhost:5173', // Another frontend;
+    `${process.env.CORS}`, // Another frontend;
 ]
   
   // Configure CORS options
