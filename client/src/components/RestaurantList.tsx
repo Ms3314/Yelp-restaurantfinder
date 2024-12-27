@@ -21,7 +21,7 @@ const RestaurantList = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get("http://localhost:3000/api/v1/restaurants");
+                const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants`);
                 
                 console.log("the data",response.data);
                 console.log(response.data.data.restaurant);
@@ -48,7 +48,7 @@ const RestaurantList = () => {
     const [review , setReview] = useState(0);
     const navigate = useNavigate();
      const handleDelete = async () => {
-        await axios.delete(`http://localhost:3000/api/v1/restaurants/${id}`).then(()=>{
+        await axios.delete(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}`).then(()=>{
             setTruDel(Math.random())
             console.log("This got deleted")
         }).catch((error)=>{
@@ -67,7 +67,7 @@ const RestaurantList = () => {
     useEffect(()=>{
         async function AvgReview() {
             try {
-                const results = await axios.get(`http://localhost:3000/api/v1/avgreview/${id}`)
+                const results = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/avgreview/${id}`)
                 console.log(results.data, "the data here ")
                 let count = 0; 
                 const temp = results.data.data;

@@ -41,7 +41,7 @@ const handlechange = (e:React.ChangeEvent<HTMLInputElement>) =>{
           status : "PUT" ,
           payload : formData
       }
-      axios.put(`http://localhost:3000/api/v1/restaurants/${id}`, data, {
+      axios.put(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}`, data, {
       headers: {
           'Content-Type': 'application/json'
       }

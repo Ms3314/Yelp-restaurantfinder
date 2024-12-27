@@ -36,7 +36,7 @@ const AddReviews: React.FC = ({reviewContext , id}:{reviewContext:any , id:numbe
     e.preventDefault();
     try {
         const response = await axios.post(
-            `http://localhost:3000/api/v1/restaurants/${id}/reviews`,
+            `${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}/reviews`,
             formData
         );
         console.log("Data has been added:", response.data);

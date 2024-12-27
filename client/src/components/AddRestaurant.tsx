@@ -37,7 +37,7 @@ function AddRestaurant():React.ReactElement{
             status : "POST" ,
             payload : formData
         }
-        axios.post('http://localhost:3000/api/v1/restaurants', data, {
+        axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants`, data, {
         headers: {
             'Content-Type': 'application/json'
         }

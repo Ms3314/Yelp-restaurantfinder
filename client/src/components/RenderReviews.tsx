@@ -18,7 +18,7 @@ function RenderReviews({ id , review}: { id: string , review:Card }) {
     useEffect(() => {
         const fetchdata = async () => {
             try {
-                const results = await axios.get(`http://localhost:3000/api/v1/restaurants/${id}/reviews`);
+                const results = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}/reviews`);
                 console.log(results, "the data I got");
 
                 // Ensure results.data is an array
