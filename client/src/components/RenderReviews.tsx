@@ -76,8 +76,7 @@ function RenderReviews({ id , review}: { id: string , review:Card }) {
     );
 }
 
-// @ts-ignore
-function Card({ reviews, name, rating }) {
+const Card: React.FC<Card> =  ({ reviews, name, rating }) => {
     return (
         <div className="bg-blue-800 rounded-xl p-4 w-[240px] text-white max-w-sm mx-auto">
             {/* Name */}
