@@ -4,7 +4,7 @@
   "main": "server.js",
   "scripts": {
     "build": "tsc", 
-    "start": "node dist/app.js", 
+    "start": "node dist/server.js", 
     "dev": "tsc -b && nodemon ./dist/server.js"
   },
   "author": "",
