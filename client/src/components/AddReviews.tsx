@@ -1,24 +1,30 @@
 import axios from 'axios';
 import React from 'react'
-import { useState , useContext } from 'react';
+import { useState  } from 'react';
 // import { ReviewContext } from '../pages/RestaurantDetail';
 
 // const context = useContext(ReviewContext);
 
 
 interface ReviewFormData {
-  name: string;
-  description: string;
-  rating: number;
+    reviews : string , 
+    name : string , 
+    rating : number ,
 }
-//@ts-ignore
-const AddReviews: React.FC = ({reviewContext , id}:{reviewContext:any , id:number}) => {
+
+interface AddReviewsProps {
+  reviewContext: React.Dispatch<React.SetStateAction<ReviewFormData>>; // Change `any` to the actual type of your review if needed
+  id: string;
+}
+
+
+const AddReviews: React.FC<AddReviewsProps> = ({reviewContext , id}:{reviewContext:React.Dispatch<React.SetStateAction<ReviewFormData>>, id:string}) => {
 // const { setReviewconst }:any = context;
 
 
   const [formData, setFormData] = useState<ReviewFormData>({
     name: "",
-    description: "",
+    reviews: "",
     rating: 0,
   });
 
@@ -36,13 +42,13 @@ const AddReviews: React.FC = ({reviewContext , id}:{reviewContext:any , id:numbe
     e.preventDefault();
     try {
         const response = await axios.post(
-            `http://localhost:3000/api/v1/restaurants/${id}/reviews`,
+            `${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}/reviews`,
             formData
         );
         console.log("Data has been added:", response.data);
         reviewContext(formData)
         // Reset the form
-        setFormData({ name: "", description: "", rating: 0 });
+        setFormData({ name: "", reviews: "", rating: 0 });
         
         // Optional: Trigger a re-fetch or notify parent component
         // setRefreshKey((prev) => prev + 1); // Example if using refreshKey
@@ -68,11 +74,11 @@ const AddReviews: React.FC = ({reviewContext , id}:{reviewContext:any , id:numbe
             placeholder="Name"
           />
           <textarea
-            name="description"
+            name="reviews"
             onChange={handleChange}
-            value={formData.description}
+            value={formData.reviews}
             className="p-2 rounded-lg min-h-20"
-            placeholder="Description"
+            placeholder="reviews"
           />
           <div>
             <label htmlFor="rating" className="text-slate-300 mr-3">

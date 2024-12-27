@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useParams , useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -34,14 +34,14 @@ const handlechange = (e:React.ChangeEvent<HTMLInputElement>) =>{
         })
     )
 }
-    const handleSubmit = async (e:unknown) => {
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
       console.log(formData)
       const data = {
           status : "PUT" ,
           payload : formData
       }
-      axios.put(`http://localhost:3000/api/v1/restaurants/${id}`, data, {
+      axios.put(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}`, data, {
       headers: {
           'Content-Type': 'application/json'
       }

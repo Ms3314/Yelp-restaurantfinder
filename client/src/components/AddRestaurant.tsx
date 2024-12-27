@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react"
+import React, {  useState } from "react"
 import axios from "axios"
-import { DataContext } from "../pages/App"
 
 interface FormData {
     name : string ,
@@ -10,8 +9,6 @@ interface FormData {
 
 // React.FC is the type for a react functional component
 function AddRestaurant():React.ReactElement{
-    //@ts-ignore
-    const { setDataAdd } = useContext(DataContext); // Fix the destructuring
 
     const [formData, setFromData] = useState<FormData>({
         name: "",
@@ -26,18 +23,17 @@ function AddRestaurant():React.ReactElement{
             ({
                 ...prev ,
                 [name] : value ,
-             // Add a comma here
             })
         )
     }
-    const handleRestaurants = async (e:unknown) => {
+    const handleRestaurants = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         console.log(formData)
         const data = {
             status : "POST" ,
             payload : formData
         }
-        axios.post('http://localhost:3000/api/v1/restaurants', data, {
+        axios.post(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants`, data, {
         headers: {
             'Content-Type': 'application/json'
         }

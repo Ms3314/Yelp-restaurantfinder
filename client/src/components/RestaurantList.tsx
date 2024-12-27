@@ -1,6 +1,5 @@
-import { useContext , useEffect , useState} from "react"
+import {   useEffect , useState} from "react"
 import axios from "axios"
-import { DataContext } from "../pages/App"
 import { useNavigate } from "react-router";
 import Star from '../assets/star-svgrepo-com.svg'
  
@@ -14,14 +13,11 @@ interface FormData {
 const RestaurantList = () => {
     const [data, setData] = useState([]);
     const [trydel , setTruDel] = useState(0)
-    //@ts-expect-error
-    const [dataAdd]  = useContext(DataContext);
-    console.log(dataAdd , "this thing changed")
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get("http://localhost:3000/api/v1/restaurants");
+                const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants`);
                 
                 console.log("the data",response.data);
                 console.log(response.data.data.restaurant);
@@ -37,18 +33,27 @@ const RestaurantList = () => {
     return (
         <div className="p-2 flex flex-col gap-y-5 justify-center lg:items-center mt-10">
             {data.map((x: FormData ) => {
-                //@ts-expect-error-some
+                // @ts-ignore
                 return <Card data={x} setTruDel={setTruDel} key={x.id} id={x.id} name={x.name} location={x.location} price={x.price_range} />;
             })}
         </div>
     );
 };
-//@ts-ignore-error
- const Card = ({name , data ,location , price , id , setTruDel }) => {
+
+    interface Carddel  {
+        name : string ,
+        data : [FormData],
+        location : string ,
+        price : number ,
+        id : number ,
+        setTruDel : React.Dispatch<React.SetStateAction<number>> ,
+    }
+
+ const Card:React.FC<Carddel> = ({name , data ,location , price , id , setTruDel }) => {
     const [review , setReview] = useState(0);
     const navigate = useNavigate();
      const handleDelete = async () => {
-        await axios.delete(`http://localhost:3000/api/v1/restaurants/${id}`).then(()=>{
+        await axios.delete(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}`).then(()=>{
             setTruDel(Math.random())
             console.log("This got deleted")
         }).catch((error)=>{
@@ -60,14 +65,17 @@ const RestaurantList = () => {
         navigate(`/restaurant/${id}`)
 
     }
+    // 
     const handleNavigate = () => {
+        console.log(data , "abcd this is the data i dont like this ")
         localStorage.setItem("data" , JSON.stringify(data)) 
         navigate(`/restaurant/${id}/update`)
     }
+
     useEffect(()=>{
         async function AvgReview() {
             try {
-                const results = await axios.get(`http://localhost:3000/api/v1/avgreview/${id}`)
+                const results = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/avgreview/${id}`)
                 console.log(results.data, "the data here ")
                 let count = 0; 
                 const temp = results.data.data;
@@ -99,7 +107,7 @@ const RestaurantList = () => {
             <h2 className="w-full text-lg">{location} </h2>
             <div className="flex gap-2 mr-10 flex-row">
             {
-                [...Array(price)].map((k, index) => ( 
+                [...Array(price)].map(( index) => ( 
                     <span className="sm:w-full text-lg" key={index}>
                       $
                     </span>
@@ -109,7 +117,7 @@ const RestaurantList = () => {
             <div className="w-[200px] flex gap-2 mr-20 flex-row">
             {
                 review ?
-                [...Array(review)].map((k, index) => ( 
+                [...Array(review)].map(( index) => ( 
                     <img key={index} className="w-3 h-5" src={Star} alt="Star" />
                 ))
                 :
@@ -117,7 +125,7 @@ const RestaurantList = () => {
             }
             </div>
             <div className="flex gap-4">
-            <button onClick={()=>handleNavigate(id)} className="bg-yellow-500 p-2  sm:pb-2  rounded-lg ">Edit</button>
+            <button onClick={()=>handleNavigate()} className="bg-yellow-500 p-2  sm:pb-2  rounded-lg ">Edit</button>
             <button onClick={handleDelete} className="bg-red-500 p-2  sm:pb-2  rounded-lg" >Delete</button>
             </div>
             <button onClick={handlereview} className=" p-2 sm:px-2  sm:w-[500px] rounded-lg">Add Review</button>

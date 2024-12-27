@@ -18,7 +18,7 @@ function RenderReviews({ id , review}: { id: string , review:Card }) {
     useEffect(() => {
         const fetchdata = async () => {
             try {
-                const results = await axios.get(`http://localhost:3000/api/v1/restaurants/${id}/reviews`);
+                const results = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}/reviews`);
                 console.log(results, "the data I got");
 
                 // Ensure results.data is an array
@@ -76,8 +76,7 @@ function RenderReviews({ id , review}: { id: string , review:Card }) {
     );
 }
 
-// @ts-ignore
-function Card({ reviews, name, rating }) {
+const Card: React.FC<Card> =  ({ reviews, name, rating }) => {
     return (
         <div className="bg-blue-800 rounded-xl p-4 w-[240px] text-white max-w-sm mx-auto">
             {/* Name */}

@@ -21,7 +21,7 @@ const app = express();
 const PORT = process.env.PORT || 3000; 
 
 const allowedOrigins = [ // React app
-    'http://localhost:5173', // Another frontend;
+    `${process.env.CORS}`, // Another frontend;
 ]
   
   // Configure CORS options
@@ -147,9 +147,9 @@ app.post("/api/v1/restaurants/:id/reviews", async (req, res) => {
     const id = req.params.id;
     console.log(req.body , "1")
     // console.log(req.body.data.data , "2")
-    const { description , name, rating } = req.body;
+    const { reviews , name, rating } = req.body;
 
-    console.log(description, name, rating);
+    console.log(reviews, name, rating);
 
     const query = `
         INSERT INTO reviews (name, reviews, rating, restaurants_id) 
@@ -158,7 +158,7 @@ app.post("/api/v1/restaurants/:id/reviews", async (req, res) => {
 
     try {
         // its actually reviews in the db but i have used descripton in the frontend do sorry 
-        await db.query(query, [name, description, rating, id]);
+        await db.query(query, [name, reviews, rating, id]);
         res.status(200).json({
             message: "Your review has been added 😀😀😀"
         });
