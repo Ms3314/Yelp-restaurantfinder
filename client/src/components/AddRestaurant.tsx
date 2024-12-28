@@ -38,8 +38,8 @@ function AddRestaurant():React.ReactElement{
             'Content-Type': 'application/json'
         }
         })
-        .then((response) => {
-            console.log(response.data); // This will log the response data from the API
+        .then(() => {
+            // console.log(response.data); // This will log the response data from the API
             location.reload()
         })
         .catch((error) => {

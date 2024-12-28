@@ -19,8 +19,6 @@ const RestaurantList = () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants`);
                 
-                console.log("the data",response.data);
-                console.log(response.data.data.restaurant);
                 setData(response.data.data.restaurant);
             } catch (error) {
                 console.log(error);
@@ -55,7 +53,6 @@ const RestaurantList = () => {
      const handleDelete = async () => {
         await axios.delete(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}`).then(()=>{
             setTruDel(Math.random())
-            console.log("This got deleted")
         }).catch((error)=>{
             console.log(error , "this is the error")
         })
@@ -67,7 +64,6 @@ const RestaurantList = () => {
     }
     // 
     const handleNavigate = () => {
-        console.log(data , "abcd this is the data i dont like this ")
         localStorage.setItem("data" , JSON.stringify(data)) 
         navigate(`/restaurant/${id}/update`)
     }
@@ -75,8 +71,7 @@ const RestaurantList = () => {
     useEffect(()=>{
         async function AvgReview() {
             try {
-                const results = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/avgreview/${id}`)
-                console.log(results.data, "the data here ")
+                const results = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/reviews/avgreview/${id}`)
                 let count = 0; 
                 const temp = results.data.data;
                 let temp2:number = 0;
@@ -87,12 +82,7 @@ const RestaurantList = () => {
                 temp.map((x:{rating:number})=>{
                     temp2 += x.rating
                 })
-                console.log(temp2 , count , "temp and count ")
-                //@type-ignore
-                const temp3 = temp2/count
-                console.log(temp3 , typeof(temp3))
-                console.log(Math.round(temp3),"round figure")
-                setReview(Math.round(temp3))
+                setReview(Math.round(temp2/count))
                 // console.log(parseInt(temp2/count));
             } catch (error) {
                 console.log(error)
@@ -107,7 +97,7 @@ const RestaurantList = () => {
             <h2 className="w-full text-lg">{location} </h2>
             <div className="flex gap-2 mr-10 flex-row">
             {
-                [...Array(price)].map(( index) => ( 
+                [...Array(price)].map((_,index) => ( 
                     <span className="sm:w-full text-lg" key={index}>
                       $
                     </span>
@@ -117,7 +107,7 @@ const RestaurantList = () => {
             <div className="w-[200px] flex gap-2 mr-20 flex-row">
             {
                 review ?
-                [...Array(review)].map(( index) => ( 
+                [...Array(review)].map((_, index) => ( 
                     <img key={index} className="w-3 h-5" src={Star} alt="Star" />
                 ))
                 :

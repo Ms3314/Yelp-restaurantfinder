@@ -18,14 +18,12 @@ function RenderReviews({ id , review}: { id: string , review:Card }) {
     useEffect(() => {
         const fetchdata = async () => {
             try {
-                const results = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/restaurants/${id}/reviews`);
-                console.log(results, "the data I got");
+                const results = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/reviews/${id}`);
 
                 // Ensure results.data is an array
                 if (Array.isArray(results.data.data)) {
                     setData(results.data.data);
                 } else {
-                    console.error("Unexpected response format:", results.data.data);
                     setError("Unexpected data format received from the server.");
                 }
             } catch (err) {
