@@ -30,9 +30,9 @@ const RestaurantList = () => {
 
     return (
         <div className="p-2 flex flex-col gap-y-5 justify-center lg:items-center mt-10">
-            {data.map((x: FormData , index) => {
+            {data.map((x: FormData ) => {
                 // @ts-ignore
-                return <Card data={x} key={index} setTruDel={setTruDel} key={x.id} id={x.id} name={x.name} location={x.location} price={x.price_range} />;
+                return <Card data={x} setTruDel={setTruDel} key={x.id} id={x.id} name={x.name} location={x.location} price={x.price_range} />;
             })}
         </div>
     );
@@ -72,7 +72,6 @@ const RestaurantList = () => {
         async function AvgReview() {
             try {
                 const results = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/reviews/avgreview/${id}`)
-                console.log(results.data, "the data here ")
                 let count = 0; 
                 const temp = results.data.data;
                 let temp2:number = 0;
@@ -98,7 +97,7 @@ const RestaurantList = () => {
             <h2 className="w-full text-lg">{location} </h2>
             <div className="flex gap-2 mr-10 flex-row">
             {
-                [...Array(price)].map((index) => ( 
+                [...Array(price)].map((_,index) => ( 
                     <span className="sm:w-full text-lg" key={index}>
                       $
                     </span>
@@ -108,7 +107,7 @@ const RestaurantList = () => {
             <div className="w-[200px] flex gap-2 mr-20 flex-row">
             {
                 review ?
-                [...Array(review)].map(( index) => ( 
+                [...Array(review)].map((_, index) => ( 
                     <img key={index} className="w-3 h-5" src={Star} alt="Star" />
                 ))
                 :
