@@ -27,7 +27,7 @@ function Restaurantdetail() {
       <div className="flex flex-col justify-center items-center">
         <RenderReviews id = {id || ""} review={review}  />
         <AddReviews id={id || ""} reviewContext={setReview}/>
-        </div>
+      </div>
       // </ReviewContext.Provider>
     );
   }
